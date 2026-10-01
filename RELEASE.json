@@ -1,22 +1,17 @@
 {
   "schema_version": 1,
   "publication_id": "nested-regular-covers-v1",
-  "status": "public-technical-v1",
-  "working_title": "Nested Regular Covers and Stopping Trees: Finite Stabilization, Sharp Thresholds, and Integrality Gaps",
+  "status": "technical-v1",
+  "title": "Nested Regular Covers and Stopping Trees: Finite Stabilization, Sharp Thresholds, and Integrality Gaps",
   "paper_version": "technical-v1",
+  "certificate_schema": 1,
+  "public_repository": "https://github.com/taishiwoidake/qtrac-stopping-trees",
   "repository_release": null,
   "git_tag": null,
-  "public_repository": "https://github.com/taishiwoidake/qtrac-stopping-trees",
-  "certificate_schema": 1,
-  "canonical_repository": "taishiwoidake/QTRAC",
-  "research_source_commit": "20e12deac07dfb9456547bb40da8af872c6688cd",
+  "preprint_identifier": null,
   "technical_preprint": {
-    "manuscript_merge_commit": "24984a443edcd3dfdcf8ea49edbbe0978f68e827",
-    "manuscript_git_blob_sha": "dbb5f722cb36e852cf3c2ad329ad07a07d563112",
     "pdf_sha256": "558f8ec715b3082ad8a9e09e76b9b3071042349c3ab4bc7788abd7a36124177b",
     "pages": 16,
-    "build_run": 36882816123,
     "reproducible_build": "PASS"
-  },
-  "note": "Technical-v1 is published at the public repository above. Release tag, preprint identifier, license, citation metadata, and author-facing publication metadata remain unset until explicitly finalized."
+  }
 }
