@@ -1,0 +1,110 @@
+{
+  "publication_id": "nested-regular-covers-v1",
+  "paper_version": "technical-v1",
+  "certificate_schema": 1,
+  "canonical_repository": "taishiwoidake/QTRAC",
+  "research_source_commit": "20e12deac07dfb9456547bb40da8af872c6688cd",
+  "manifest_sha256": "4043dabea85f9336768303f5b40aa4b425d4fe97046a94a2e0d321fc42892e59",
+  "artifacts": [
+    {
+      "destination": "paper/preprint_v1.tex",
+      "sha256": "c98390af09d840739b0293761ab67eb6fe9f64d7742c2063c508e26926737dc8",
+      "role": "integrated-analytic-manuscript"
+    },
+    {
+      "destination": "paper/references.bib",
+      "sha256": "ea486ce92d6ddd60aabe28d51c82df9676e1b115777544d6e19bda2d643960d8",
+      "role": "bibliography"
+    },
+    {
+      "destination": "paper/proofs/finite_layer.md",
+      "sha256": "4dc9e6412e350bf27203606f4f1a3bc5b0d04625dac95ae89003ff93c40ccca5",
+      "role": "analytic-proof"
+    },
+    {
+      "destination": "paper/proofs/four_edge_minimality.md",
+      "sha256": "98a194ccfad8696768beb79d711fcf51bb8f3f2c536733a9106a7980d30f1fdf",
+      "role": "analytic-proof"
+    },
+    {
+      "destination": "paper/proofs/integrality_gap.md",
+      "sha256": "802b4df1069643107e4e71bef042f4e29c23965553d20bdfb81d1a379390a67e",
+      "role": "analytic-proof-and-certificate-explanation"
+    },
+    {
+      "destination": "paper/proofs/stopping_tree.md",
+      "sha256": "c12a6586c5de1cc38e0ac0ad9f18ffd1b0dfddf3495529d20d50d9bbdb7dd521",
+      "role": "analytic-proof-and-certificate-explanation"
+    },
+    {
+      "destination": "checkers/reachability_rounding.py",
+      "sha256": "512f6c1b6e0b0bfe17e55e6b5223585ad6f30f6811d0f9ac0703f451241df54a",
+      "role": "finite-construction-checker"
+    },
+    {
+      "destination": "checkers/four_edge_minimality.py",
+      "sha256": "9e9a63c4cf78e03b55e4b482228db1e3cac6e1d83702bf58feb7116e805a7fcd",
+      "role": "finite-certificate-checker"
+    },
+    {
+      "destination": "checkers/integrality_gap.py",
+      "sha256": "d6491606bc061819ff18d1a0f62f35a290a2b425951abe89870cdd75a3b7c455",
+      "role": "exact-primal-dual-checker"
+    },
+    {
+      "destination": "checkers/stopping_tree.py",
+      "sha256": "f42a724f5dd69cf9fa3b2d22cb57c56c59189251b18dd3465c4ebd0ca4789ba0",
+      "role": "stopping-tree-certificate-checker"
+    },
+    {
+      "destination": "certificates/finite_layer.json",
+      "sha256": "be49d89c191002f9a8e4c6eabf19ed35ed3fac0470752f8176959e9b21f7dcf6",
+      "role": "certificate-manifest"
+    },
+    {
+      "destination": "certificates/four_edge_minimality.json",
+      "sha256": "a3cf01a6568cd4b5807e36c2f0233b006d845b093b7505080c4d8abed4794a3c",
+      "role": "certificate-manifest"
+    },
+    {
+      "destination": "certificates/integrality_gap.json",
+      "sha256": "a9e87e3b12ade96553eb65a55d8d9d11c98c2b35d32f7e697af3c3753428127d",
+      "role": "certificate-manifest"
+    },
+    {
+      "destination": "certificates/stopping_tree.json",
+      "sha256": "9493b01ecdc91220828a4069f0dbf40d5a03025131173741fd74920ba0bf5676",
+      "role": "certificate-manifest"
+    },
+    {
+      "destination": "README.md",
+      "sha256": "832c5d554c50e649cd863a315f34dc18445ffa2fca65996b46c802e18f6da482",
+      "role": "public-readme"
+    },
+    {
+      "destination": "verify.py",
+      "sha256": "4e93ce3891134ca04badc11009bd4556eeb2adbf4731789c9bdd7f9ba0b028de",
+      "role": "one-command-verifier"
+    },
+    {
+      "destination": "RELEASE.json",
+      "sha256": "7a9aa708b3abd4e62210a8cd1483493748104698bbbda73e164905275a068c2c",
+      "role": "release-metadata"
+    },
+    {
+      "destination": ".github/workflows/verify.yml",
+      "sha256": "e3eca736788262f06b80f0ac8f9312dea3925c50c1c882e0bcc391da93b732d0",
+      "role": "public-ci"
+    },
+    {
+      "destination": "THEOREM_MAP.md",
+      "sha256": "312b9b940b10ea1418a7fcb6c4eb74ee10c1ba7b0775456dba07c7a9bda60941",
+      "role": "theorem-scope-map"
+    },
+    {
+      "destination": ".github/workflows/build-paper.yml",
+      "sha256": "41249517959cf80cec86a9d225146cd41c03fecda2dfc2f8849434207b6acd41",
+      "role": "reproducible-pdf-builder"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "scope": "Exact integer/real tail integrality gap for the ten-state partial-matching lift",
+  "checker": "checkers/tail/integrality_gap.py",
+  "claims": {
+    "integer_optimum": "6",
+    "real_optimum": "11/2",
+    "integrality_gap": "1/2"
+  },
+  "integer_certificate": {
+    "unique_degree3_entrance": true,
+    "reachable_degree3_states": 4,
+    "degree3_transition_edges": 9,
+    "degree2_successor_from_reachable_degree3_state": false,
+    "upper_witness": "constant degree-3 chain"
+  },
+  "real_primal_certificate": {
+    "d0": "7/2",
+    "d_q_for_q_ge_1": "2",
+    "cost": "11/2",
+    "description": "Explicit rational H0 and H1 are embedded in the checker; H_q=H1 for q>=1."
+  },
+  "real_dual_certificate": {
+    "finite_inequality": "2 d0 + d1 >= 9",
+    "pointwise_tail_cut": "d_q >= 2 for q>=1",
+    "consequence": "C_infty^R >= 9/2 + 1 = 11/2",
+    "format": "Exact rational coefficient identity over row/column equalities, nesting inequality, and lower/upper bounds"
+  },
+  "scope_note": "This is an independently reconstructed exact certificate for the repository. It does not claim byte-identical recovery of an earlier proof artifact."
+}

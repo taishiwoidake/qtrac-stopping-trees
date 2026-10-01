@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "publication_id": "nested-regular-covers-v1",
+  "status": "public-technical-v1",
+  "working_title": "Nested Regular Covers and Stopping Trees: Finite Stabilization, Sharp Thresholds, and Integrality Gaps",
+  "public_repository_slug_candidate": "qtrac-stopping-trees",
+  "paper_version": "technical-v1",
+  "certificate_schema": 1,
+  "canonical_repository": "taishiwoidake/QTRAC",
+  "export_policy": "explicit-allowlist-only",
+  "theorem_set": [
+    {
+      "id": "QTRAC-TAIL-004",
+      "public_label": "Theorem A",
+      "role": "finite-layer stabilization"
+    },
+    {
+      "id": "QTRAC-TAIL-011",
+      "public_label": "Theorem B",
+      "role": "sharp four-edge partial-matching threshold"
+    },
+    {
+      "id": "QTRAC-TAIL-009",
+      "public_label": "Theorem C",
+      "role": "exact integer/real integrality gap"
+    },
+    {
+      "id": "QTRAC-TAIL-010",
+      "public_label": "Theorem D",
+      "role": "complete stopping-tree realization"
+    }
+  ],
+  "excluded_from_v1": [
+    "QTRAC-TAIL-001",
+    "QTRAC-TAIL-002",
+    "QTRAC-TAIL-003",
+    "QTRAC-TAIL-005",
+    "QTRAC-TAIL-006",
+    "QTRAC-TAIL-007",
+    "QTRAC-TAIL-008",
+    "QTRAC-TAIL-OPEN-001",
+    "QTRAC-COMP",
+    "QTRAC complexity",
+    "Ximeste・Maluna general line",
+    "Arithmetic Power-Lift",
+    "Closed Control / Exact Return"
+  ],
+  "artifacts": [
+    {
+      "source": "papers/nested-regular-covers/preprint_v1.tex",
+      "destination": "paper/preprint_v1.tex",
+      "role": "integrated-analytic-manuscript",
+      "sha256": "c98390af09d840739b0293761ab67eb6fe9f64d7742c2063c508e26926737dc8"
+    },
+    {
+      "source": "papers/nested-regular-covers/references.bib",
+      "destination": "paper/references.bib",
+      "role": "bibliography",
+      "sha256": "ea486ce92d6ddd60aabe28d51c82df9676e1b115777544d6e19bda2d643960d8"
+    },
+    {
+      "source": "papers/tail/FINITE_LAYER_THEOREM.md",
+      "destination": "paper/proofs/finite_layer.md",
+      "role": "analytic-proof",
+      "sha256": "4dc9e6412e350bf27203606f4f1a3bc5b0d04625dac95ae89003ff93c40ccca5"
+    },
+    {
+      "source": "papers/tail/FOUR_EDGE_MINIMALITY.md",
+      "destination": "paper/proofs/four_edge_minimality.md",
+      "role": "analytic-proof",
+      "sha256": "98a194ccfad8696768beb79d711fcf51bb8f3f2c536733a9106a7980d30f1fdf"
+    },
+    {
+      "source": "papers/tail/INTEGRALITY_GAP.md",
+      "destination": "paper/proofs/integrality_gap.md",
+      "role": "analytic-proof-and-certificate-explanation",
+      "sha256": "802b4df1069643107e4e71bef042f4e29c23965553d20bdfb81d1a379390a67e"
+    },
+    {
+      "source": "papers/tail/STOPPING_TREE.md",
+      "destination": "paper/proofs/stopping_tree.md",
+      "role": "analytic-proof-and-certificate-explanation",
+      "sha256": "c12a6586c5de1cc38e0ac0ad9f18ffd1b0dfddf3495529d20d50d9bbdb7dd521"
+    },
+    {
+      "source": "checkers/tail/reachability_rounding.py",
+      "destination": "checkers/reachability_rounding.py",
+      "role": "finite-construction-checker",
+      "sha256": "512f6c1b6e0b0bfe17e55e6b5223585ad6f30f6811d0f9ac0703f451241df54a"
+    },
+    {
+      "source": "checkers/tail/four_edge_minimality.py",
+      "destination": "checkers/four_edge_minimality.py",
+      "role": "finite-certificate-checker",
+      "sha256": "9e9a63c4cf78e03b55e4b482228db1e3cac6e1d83702bf58feb7116e805a7fcd"
+    },
+    {
+      "source": "checkers/tail/integrality_gap.py",
+      "destination": "checkers/integrality_gap.py",
+      "role": "exact-primal-dual-checker",
+      "sha256": "d6491606bc061819ff18d1a0f62f35a290a2b425951abe89870cdd75a3b7c455"
+    },
+    {
+      "source": "checkers/tail/stopping_tree.py",
+      "destination": "checkers/stopping_tree.py",
+      "role": "stopping-tree-certificate-checker",
+      "sha256": "f42a724f5dd69cf9fa3b2d22cb57c56c59189251b18dd3465c4ebd0ca4789ba0"
+    },
+    {
+      "source": "certificates/tail/finite_layer.json",
+      "destination": "certificates/finite_layer.json",
+      "role": "certificate-manifest",
+      "sha256": "be49d89c191002f9a8e4c6eabf19ed35ed3fac0470752f8176959e9b21f7dcf6"
+    },
+    {
+      "source": "certificates/tail/four_edge_minimality.json",
+      "destination": "certificates/four_edge_minimality.json",
+      "role": "certificate-manifest",
+      "sha256": "a3cf01a6568cd4b5807e36c2f0233b006d845b093b7505080c4d8abed4794a3c"
+    },
+    {
+      "source": "certificates/tail/integrality_gap.json",
+      "destination": "certificates/integrality_gap.json",
+      "role": "certificate-manifest",
+      "sha256": "a9e87e3b12ade96553eb65a55d8d9d11c98c2b35d32f7e697af3c3753428127d"
+    },
+    {
+      "source": "certificates/tail/stopping_tree.json",
+      "destination": "certificates/stopping_tree.json",
+      "role": "certificate-manifest",
+      "sha256": "9493b01ecdc91220828a4069f0dbf40d5a03025131173741fd74920ba0bf5676"
+    },
+    {
+      "source": "publications/nested-regular-covers-v1/public/README.md",
+      "destination": "README.md",
+      "role": "public-readme",
+      "sha256": "832c5d554c50e649cd863a315f34dc18445ffa2fca65996b46c802e18f6da482"
+    },
+    {
+      "source": "publications/nested-regular-covers-v1/public/verify.py",
+      "destination": "verify.py",
+      "role": "one-command-verifier",
+      "sha256": "4e93ce3891134ca04badc11009bd4556eeb2adbf4731789c9bdd7f9ba0b028de"
+    },
+    {
+      "source": "publications/nested-regular-covers-v1/public/RELEASE.json",
+      "destination": "RELEASE.json",
+      "role": "release-metadata",
+      "sha256": "7a9aa708b3abd4e62210a8cd1483493748104698bbbda73e164905275a068c2c"
+    },
+    {
+      "source": "publications/nested-regular-covers-v1/public/.github/workflows/verify.yml",
+      "destination": ".github/workflows/verify.yml",
+      "role": "public-ci",
+      "sha256": "e3eca736788262f06b80f0ac8f9312dea3925c50c1c882e0bcc391da93b732d0"
+    },
+    {
+      "source": "publications/nested-regular-covers-v1/THEOREM_MAP.md",
+      "destination": "THEOREM_MAP.md",
+      "role": "theorem-scope-map",
+      "sha256": "312b9b940b10ea1418a7fcb6c4eb74ee10c1ba7b0775456dba07c7a9bda60941"
+    },
+    {
+      "source": "publications/nested-regular-covers-v1/public/.github/workflows/build-paper.yml",
+      "destination": ".github/workflows/build-paper.yml",
+      "role": "reproducible-pdf-builder",
+      "sha256": "41249517959cf80cec86a9d225146cd41c03fecda2dfc2f8849434207b6acd41"
+    }
+  ],
+  "research_source_commit": "20e12deac07dfb9456547bb40da8af872c6688cd",
+  "public_snapshot_files": [
+    "SOURCE_MANIFEST.json",
+    "PUBLICATION_LOCK.json"
+  ],
+  "technical_preprint": {
+    "manuscript_path": "papers/nested-regular-covers/preprint_v1.tex",
+    "references_path": "papers/nested-regular-covers/references.bib",
+    "manuscript_merge_commit": "24984a443edcd3dfdcf8ea49edbbe0978f68e827",
+    "manuscript_git_blob_sha": "dbb5f722cb36e852cf3c2ad329ad07a07d563112",
+    "pdf_sha256": "558f8ec715b3082ad8a9e09e76b9b3071042349c3ab4bc7788abd7a36124177b",
+    "pages": 16,
+    "build_run": 36882816123,
+    "pull_request_build_run": 36879270043,
+    "reproducible_build": "PASS"
+  },
+  "public_repository": "https://github.com/taishiwoidake/qtrac-stopping-trees"
+}

@@ -1,0 +1,1257 @@
+\documentclass[11pt]{article}
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\pdfsuppressptexinfo=-1
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newtheorem*{theoremA}{Theorem A}
+\newtheorem*{theoremB}{Theorem B}
+\newtheorem*{theoremC}{Theorem C}
+\newtheorem*{theoremD}{Theorem D}
+
+\newcommand{\one}{\mathbf 1}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\degm}{\operatorname{deg}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\E}{\mathbb E}
+
+\title{Nested Regular Covers and Stopping Trees:\\
+Finite Stabilization, Sharp Thresholds, and Integrality Gaps}
+\author{}
+\date{Private draft v1 --- 1 October 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study a nested covering problem for nonnegative regular matrices under dyadic capacity dilation.
+A fixed $0$--$1$ mask $Z$ prescribes edges that must remain present, while a legal sequence
+of regular matrices $(H_q)_{q\ge 0}$ satisfies
+\[
+Z\le H_0\le U,
+\qquad
+Z\le H_{q+1}\le 2H_q .
+\]
+The degree sequence is charged by the discounted objective
+\[
+C_\infty(H)=\sum_{q\ge0}2^{-q}\degm(H_q).
+\]
+This simple recurrence captures a temporal compatibility constraint that is invisible if each layer
+is optimized independently.
+
+We prove four results. First, if $r=|Z|$, every legal integer tail has a no-more-expensive representative
+that becomes constant after
+\[
+M_r
+=
+\sum_{d=2}^{2r-1}
+\left(1+\left\lceil\log_2(d-1)\right\rceil\right)
+=
+O(r\log r)
+\]
+layers, independently of the ambient dimension.
+Second, for four required edges forming a partial matching, a local degree drop
+$\kappa_Z(U)=3$ to $\kappa_Z(2U)=2$ requires at least seven states, and the bound is sharp.
+Third, an explicit ten-state partial-matching instance has exact infinite-horizon optima
+\[
+C_\infty^{\Z}=6,
+\qquad
+C_\infty^{\R}=\frac{11}{2},
+\]
+so the integer/real gap is exactly $1/2$.
+Finally, we give a closed-form stopping-tree realization for a six-state dyadic family with
+\[
+\mathbb E T_\ell
+=
+\frac{29}{8}-\frac38\,2^{-\ell},
+\qquad
+\mathbb E T_\infty=\frac{29}{8}.
+\]
+
+The general proofs are analytic.  The accompanying reproducibility package independently checks
+the finite witnesses, the reachable-state certificate, the exact rational primal/dual certificate,
+the constructive rounding mechanism, and the stopping-tree identities using exact arithmetic.
+\end{abstract}
+
+\section{Introduction}
+
+Many exact randomized constructions are easy to optimize at a single time scale and harder to
+optimize \emph{consistently across time}.  A local optimum at one resolution can force a support
+pattern that obstructs a better optimum at the next resolution.  The present paper isolates a
+finite combinatorial model of this phenomenon.
+
+The state at a layer is a nonnegative regular matrix.  A lower mask $Z$ specifies edges that must
+survive, while dyadic refinement doubles the available capacity.  The nesting condition
+\[
+H_{q+1}\le 2H_q
+\]
+forces every positive entry at a later layer to descend from positive mass already present at the
+previous layer.  Consequently, support can shrink but cannot reappear.
+
+Two questions motivate the paper.
+
+\begin{enumerate}[label=(\roman*)]
+\item Does the infinite-horizon optimization reduce to a finite computation whose size depends
+only on the number $r=|Z|$ of required edges?
+\item When do pointwise degree optima fail to fit into one common nested chain?
+\end{enumerate}
+
+Our first theorem answers the first question affirmatively with a state-count-independent
+$O(r\log r)$ horizon.  The second and third theorems identify small sharp obstructions:
+a four-edge partial matching already permits a local $3\to2$ capacity drop, but only from seven
+states onward, while a five-edge ten-state construction separates the integer nested optimum from
+its real relaxation by exactly $1/2$.
+
+The final theorem reconnects the matrix problem to exact fair-bit stopping trees.  For an explicit
+six-state family, cumulative stopped-branch matrices admit a closed form at every depth.  This
+yields a complete finite tree for every member of the family and an infinite limiting tree with
+finite expected cost.
+
+\subsection{Classical background and related work}
+
+The ingredients used here include several classical facts that are not novelty claims of this
+paper.  Integer regular bipartite multigraphs decompose into perfect matchings, equivalently into
+permutation matrices; this is the integral form behind the Birkhoff--von Neumann theorem
+\cite{birkhoff1946,vonneumann1953}.  Lower/upper-capacity feasibility is naturally expressed
+through integral flows and cut conditions of Hoffman type \cite{hoffman1974,bangjensengutin2009}.
+Exact fair-bit sampling can be represented by binary discrete-distribution-generating trees in
+the sense of Knuth and Yao \cite{knuthyao1976}; modern work continues to study exact and
+entropy-efficient discrete sampling under random-bit models \cite{saad2020optimal}.
+
+There is also a substantial literature on \emph{multistage} combinatorial optimization, where a
+matching or matroid solution is selected at each time step and changing the selected solution
+incurs acquisition or transition cost.  Gupta, Talwar, and Wieder introduced a general
+multistage framework and showed strong hardness for perfect-matching maintenance
+\cite{gupta2014changing}.  Bampis et al.\ studied multistage matching with explicit transition
+costs \cite{bampis2018multistage}, and Chimani, Troost, and Wiedera developed approximation and
+LP-integrality-gap results for intersection/union variants \cite{chimani2022approximating}.
+
+The model here is different.  There is no exogenous sequence of edge costs and no penalty for
+changing one matching into another.  Instead, the state is an integer regular \emph{multigraph}
+matrix and temporal compatibility is imposed directly by the one-sided capacity recurrence
+\[
+H_{q+1}\le 2H_q .
+\]
+Thus later mass must descend from earlier support, while the objective discounts the regular
+degree itself.  The sharp state-count threshold, the exact $6$ versus $11/2$ gap, and the
+state-count-independent stabilization theorem below concern this nested-capacity model rather
+than the standard multistage matching objectives.
+
+Our contribution is the \emph{nested} interaction of regular covers under repeated dyadic
+capacity dilation, together with the sharp finite obstructions and exact stopping certificates
+developed below.  We deliberately separate analytic proofs from computational evidence.  The
+supplied checker programs verify finite claims and certificates; they are not formal proofs of
+the universal analytic theorems.
+
+\subsection{Main results}
+
+The four publication-level results are as follows.
+
+\begin{theoremA}[Finite-layer stabilization]
+Let $Z$ contain $r\ge2$ required edges.  Every legal integer tail has a no-more-expensive legal tail
+that is constant after at most
+\[
+M_r
+=
+\sum_{d=2}^{2r-1}
+\left(1+\left\lceil\log_2(d-1)\right\rceil\right)
+\]
+layers.  In particular $M_r=O(r\log r)$ and is independent of the matrix dimension.
+\end{theoremA}
+
+\begin{theoremB}[Sharp four-edge partial-matching threshold]
+Let $Z$ consist of exactly four required edges in four distinct rows and four distinct columns.
+If
+\[
+\kappa_Z(U)=3,
+\qquad
+\kappa_Z(2U)=2,
+\]
+then the matrix dimension satisfies $n\ge7$.  A seven-state example exists, so the bound is sharp.
+\end{theoremB}
+
+\begin{theoremC}[Exact integer/real integrality gap]
+For the explicit ten-state partial-matching instance in Section~\ref{sec:gap},
+\[
+C_\infty^{\Z}=6,
+\qquad
+C_\infty^{\R}=\frac{11}{2}.
+\]
+Hence the exact integrality gap is $1/2$.
+\end{theoremC}
+
+\begin{theoremD}[Exact stopping-tree family]
+For the six-state dyadic family in Section~\ref{sec:stopping},
+there is an exact finite stopping tree for every $\ell\ge0$ with
+\[
+\mathbb E T_\ell
+=
+\frac{29}{8}-\frac38\,2^{-\ell}.
+\]
+The limiting kernel admits an exact infinite stopping tree with
+\[
+\mathbb E T_\infty=\frac{29}{8}.
+\]
+\end{theoremD}
+
+\section{Regular covers and nested tails}
+\label{sec:model}
+
+\begin{definition}[Regular matrix]
+A nonnegative $n\times n$ matrix $H$ is $d$-regular if
+\[
+H\one=d\one,
+\qquad
+H^\top\one=d\one.
+\]
+We write $\degm(H)=d$.
+\end{definition}
+
+Unless stated otherwise, regular matrices in the integer problem have entries in $\Z_{\ge0}$.
+
+\begin{definition}[Required mask and covering degree]
+Let $U\in\Z_{\ge0}^{n\times n}$ be regular and let
+$Z\in\{0,1\}^{n\times n}$ satisfy $Z\le U$ entrywise.  Define
+\[
+\kappa_Z(U)
+=
+\min\left\{
+d:
+\exists\ d\text{-regular }H\in\Z_{\ge0}^{n\times n},
+\quad
+Z\le H\le U
+\right\}.
+\]
+\end{definition}
+
+\begin{definition}[Legal integer tail]
+A legal tail for $(U,Z)$ is a sequence
+$(H_q)_{q\ge0}$ of integer regular matrices satisfying
+\[
+Z\le H_0\le U,
+\qquad
+Z\le H_{q+1}\le2H_q
+\quad(q\ge0).
+\]
+Writing $d_q=\degm(H_q)$, its discounted cost is
+\[
+C_\infty(H)
+=
+\sum_{q\ge0}2^{-q}d_q.
+\]
+The integer optimum is denoted $C_\infty^\Z(U,Z)$.
+\end{definition}
+
+The relaxed problem permits nonnegative real regular matrices and has optimum
+$C_\infty^\R(U,Z)$.
+
+We write $E_{ij}$ for the standard matrix unit and $J_n$ for the $n\times n$ all-ones matrix.
+
+\begin{remark}[Support monotonicity]
+If $H_{q,ij}=0$, then $(H_{q+1})_{ij}=0$.  Thus
+\[
+\supp H_{q+1}\subseteq\supp H_q.
+\]
+This elementary observation is the temporal constraint responsible for the phenomena below.
+\end{remark}
+
+\subsection{A cut formula for one layer}
+
+The single-layer quantity $\kappa_Z(U)$ is a standard lower/upper-capacity flow problem
+\cite{hoffman1974}.
+
+\begin{proposition}[Cut characterization]
+\label{prop:cut}
+For row set $I$ and column set $J$, let
+\[
+s=|I|+|J|-n.
+\]
+For $s>0$, write $Z(I,J)$ for the total required mass in $I\times J$ and
+$U(I^c,J^c)$ for the capacity in the complementary block.  Then
+\[
+\kappa_Z(U)
+=
+\max_{I,J:\ s>0}
+\left\lceil
+\frac{Z(I,J)-U(I^c,J^c)}{s}
+\right\rceil.
+\]
+\end{proposition}
+
+\begin{proof}
+Let $H$ be $d$-regular with $Z\le H\le U$.  Regularity gives
+\[
+H(I,J)-H(I^c,J^c)=d(|I|+|J|-n)=ds.
+\]
+Using $H(I,J)\ge Z(I,J)$ and $H(I^c,J^c)\le U(I^c,J^c)$ yields the stated
+lower bound on $d$.
+
+Conversely, write $H=Z+X$ and impose the residual row and column demands needed to make
+$H$ $d$-regular.  This is a bipartite flow problem with integral capacities
+$0\le X\le U-Z$.  The max-flow/min-cut condition reduces exactly to the displayed family of
+inequalities.  Integrality of the network implies an integral feasible $X$ whenever all cuts
+pass.
+\end{proof}
+
+\section{Finite-layer stabilization}
+\label{sec:finite}
+
+This section proves Theorem~A.
+
+\subsection{Degree trimming}
+
+\begin{lemma}[Degree trimming]
+\label{lem:trim}
+Let $r=|Z|$.  Every legal tail has a no-more-expensive representative in which
+\[
+\degm(H_q)\le 2r-1
+\qquad(q\ge0).
+\]
+\end{lemma}
+
+\begin{proof}
+Suppose a legal state $W\ge Z$ has degree at least $2r$.
+Because $W$ is an integer regular bipartite multigraph, it decomposes into permutation matrices.
+For each of the $r$ required edges, choose one permutation from the decomposition containing that
+edge.  After removing duplicate choices, the sum $R$ satisfies
+\[
+Z\le R\le W,
+\qquad
+\degm(R)\le r.
+\]
+Replacing $W$ and its entire future by the constant tail $R,R,\ldots$ is legal.
+If $W=H_q$ with $q>0$, the original chain has $W\le2H_{q-1}$, hence
+$R\le W\le2H_{q-1}$.  If $q=0$, then $R\le W\le U$.
+Every subsequent transition is legal because $R\le2R$.
+
+Measured from the layer containing $W$, the replacement costs at most
+\[
+\degm(R)\sum_{j\ge0}2^{-j}
+=
+2\degm(R)
+\le2r,
+\]
+whereas the original current layer alone costs at least $2r$.
+Thus degree at least $2r$ is never necessary in an optimal representative.
+\end{proof}
+
+\subsection{A logarithmic reachability lemma}
+
+\begin{lemma}[Reachability by balanced rounding]
+\label{lem:reach}
+Let $A$ be integer $d$-regular and $K$ integer $k$-regular with
+\[
+d>k,
+\qquad
+Z\le A,K,
+\qquad
+\supp K\subseteq\supp A.
+\]
+Then $K$ can be reached from $A$ by a legal chain with at most
+\[
+L(d)
+=
+1+\left\lceil\log_2(d-1)\right\rceil
+\]
+transitions, while every intermediate matrix before $K$ has degree $d$.
+\end{lemma}
+
+\begin{proof}
+Choose a permutation matrix $P\le A$ and define
+\[
+R_0=K+(d-k)P.
+\]
+Then $R_0$ is $d$-regular, contains $Z$, and has support contained in $\supp A$.
+
+Assume $R_s$ has these properties and put
+\[
+S_s=A+R_s.
+\]
+Every row and column sum of $S_s$ equals $2d$.
+Begin with the entrywise floor $\lfloor S_s/2\rfloor$.
+The set of positions at which $S_s$ is odd forms a bipartite graph in which every row-vertex and
+column-vertex has even degree.  Decompose this graph into even cycles and alternately round up and
+down around each cycle.  The resulting matrix $R_{s+1}$ is integer $d$-regular and satisfies
+\[
+R_{s+1,ij}
+\in
+\left\{
+\left\lfloor\frac{A_{ij}+R_{s,ij}}2\right\rfloor,
+\left\lceil\frac{A_{ij}+R_{s,ij}}2\right\rceil
+\right\}.
+\]
+Because $A,R_s\ge Z$, every required edge survives.  Because both matrices are supported inside
+$\supp A$, so is $R_{s+1}$.  Moreover
+\[
+R_s\le2R_{s+1}.
+\]
+
+Let
+\[
+e_s=\max_{ij}(R_{s,ij}-A_{ij})_+.
+\]
+Then
+\[
+e_{s+1}\le\left\lceil\frac{e_s}{2}\right\rceil.
+\]
+Every positive entry of $A$ is at least one and every entry of a $d$-regular nonnegative matrix is
+at most $d$, so $e_0\le d-1$.  Hence after
+\[
+t=\left\lceil\log_2(d-1)\right\rceil
+\]
+rounds we have $e_t\le1$, equivalently $R_t\le2A$.
+
+If $d=2$, then $k\le1$ and support containment implies $K\le A$, so the direct transition
+$A,K$ is legal and the claimed bound is one.
+
+Assume now $d\ge3$, so $t\ge1$.  The chain
+\[
+A,\ R_t,\ R_{t-1},\ldots,R_1,\ K
+\]
+is legal.  The first step uses $R_t\le2A$; the reversed rounding steps use
+$R_s\le2R_{s+1}$; and the last step follows from $K\le R_0\le2R_1$.
+The number of transitions is at most $1+t$.
+\end{proof}
+
+\subsection{Finite stabilization}
+
+\begin{theorem}[Finite-layer stabilization]
+\label{thm:finite}
+Let $r=|Z|\ge2$ and set $B=2r-1$.  Every legal integer tail admits a no-more-expensive legal
+tail that is constant after at most
+\[
+M_r
+=
+\sum_{d=2}^{B}
+\left(1+\left\lceil\log_2(d-1)\right\rceil\right)
+\]
+layers.
+If
+\[
+h_r=\left\lceil\log_2(B-1)\right\rceil,
+\]
+then
+\[
+M_r=(h_r+1)(B-1)-2^{h_r}+1,
+\]
+and therefore $M_r=O(r\log r)$.  In particular, the infinite-horizon infimum is attained.
+\end{theorem}
+
+\begin{proof}
+Start from an arbitrary legal tail.  By Lemma~\ref{lem:trim}, replace it by a no-more-expensive
+tail whose degrees are all at most $B$.  Along any legal tail, supports only shrink.
+
+Now work with the running minimum of the degree.  Suppose $A$ is a state of current
+running-minimum degree $d$, and let $K$ be the first later state whose degree is strictly smaller,
+say $k<d$.  Every state between $A$ and $K$ has degree at least $d$, and support monotonicity gives
+\[
+\supp K\subseteq\supp A.
+\]
+Lemma~\ref{lem:reach} therefore replaces the whole segment by at most $L(d)$ degree-$d$ links
+followed by $K$.
+
+This replacement cannot increase discounted cost.  If $V_K$ denotes the original continuation
+cost starting at $K$, then the constant tail $K,K,\ldots$ is feasible, so
+\[
+V_K\le2k<2d.
+\]
+Waiting $s$ degree-$d$ layers before entering that same continuation has value
+\[
+W_s
+=
+d\sum_{j=0}^{s-1}2^{-j}+2^{-s}V_K
+=
+2d+2^{-s}(V_K-2d),
+\]
+which is increasing in $s$.  Thus shortening the waiting segment to at most $L(d)$ layers cannot
+increase cost.
+
+If the degree never falls below the current running minimum again, freeze the current matrix
+forever; this is legal and cannot increase cost because every later degree is at least the current
+one.  Otherwise repeat the preceding acceleration at the next strict drop.  Each strict drop
+lowers an integer degree, so this process terminates.
+
+There are no relevant degrees above $B$.  Summing the worst-case delay over all possible strict
+drops yields
+\[
+M_r=\sum_{d=2}^{B}L(d).
+\]
+The closed form follows by grouping the values of
+$\lceil\log_2(d-1)\rceil$ into dyadic intervals.
+
+Finally, after degree trimming there are only finitely many integer regular matrices of degree at
+most $B$ on the fixed $n\times n$ support.  The preceding transformation reduces every legal tail
+to one of finitely many tails of length at most $M_r$ followed by a constant state.  Hence the
+infimum is a minimum.
+\end{proof}
+
+\section{The sharp four-edge partial-matching threshold}
+\label{sec:four}
+
+We now identify a sharp state-count obstruction for a four-edge partial matching.
+
+\begin{theorem}[Four-edge lower bound]
+\label{thm:fourlower}
+Let $U$ be a nonnegative integer regular $n\times n$ capacity matrix and let $Z\le U$ consist of
+exactly four required edges, with all four rows distinct and all four columns distinct.
+If
+\[
+\kappa_Z(U)=3,
+\qquad
+\kappa_Z(2U)=2,
+\]
+then $n\ge7$.
+\end{theorem}
+
+\begin{proof}
+Since $\kappa_Z(U)=3$, Proposition~\ref{prop:cut} yields a cut with $s>0$ such that
+\[
+Z(I,J)-U(I^c,J^c)\ge2s+1.
+\]
+Write
+\[
+z=Z(I,J),
+\qquad
+u=U(I^c,J^c).
+\]
+Because $\kappa_Z(2U)=2$, the same cut satisfies
+\[
+z-2u\le2s.
+\]
+Since $Z$ has four edges, $0\le z\le4$.  Thus
+\[
+z-u\ge2s+1,
+\qquad
+z-2u\le2s,
+\qquad
+0\le z\le4.
+\]
+The only integer solution is
+\[
+s=1,\qquad z=4,\qquad u=1.
+\]
+All four required edges therefore lie in $I\times J$.
+Because they form a partial matching, $I$ contains four distinct required rows and $J$ contains
+four distinct required columns.  Hence
+\[
+|I|\ge4,\qquad |J|\ge4.
+\]
+As $s=|I|+|J|-n=1$,
+\[
+n=|I|+|J|-1\ge7.
+\]
+\end{proof}
+
+\begin{theorem}[Sharp seven-state witness]
+\label{thm:fourseven}
+The bound in Theorem~\ref{thm:fourlower} is sharp.
+\end{theorem}
+
+\begin{proof}
+Let
+\[
+Z=E_{11}+E_{22}+E_{33}+E_{44}
+\]
+and
+\[
+U=
+\begin{pmatrix}
+1&0&0&0&1&1&0\\
+0&1&0&0&1&0&1\\
+0&0&1&0&0&1&1\\
+0&0&0&1&0&1&1\\
+1&1&0&0&1&0&0\\
+1&0&1&1&0&0&0\\
+0&1&1&1&0&0&0
+\end{pmatrix}.
+\]
+The matrix $U$ is $3$-regular.  For $I=J=\{1,2,3,4\}$,
+\[
+s=1,\qquad Z(I,J)=4,\qquad U(I^c,J^c)=1.
+\]
+Proposition~\ref{prop:cut} therefore gives $\kappa_Z(U)\ge3$, and $U$ itself is a feasible
+degree-three cover.
+
+For $2U$, define
+\[
+H_2=
+\begin{pmatrix}
+1&0&0&0&0&1&0\\
+0&1&0&0&0&0&1\\
+0&0&1&0&0&1&0\\
+0&0&0&1&0&0&1\\
+0&0&0&0&2&0&0\\
+1&0&1&0&0&0&0\\
+0&1&0&1&0&0&0
+\end{pmatrix}.
+\]
+Then $H_2$ is $2$-regular and $Z\le H_2\le2U$.
+The same cut gives a lower bound of two, so $\kappa_Z(2U)=2$.
+\end{proof}
+
+\begin{remark}
+The partial-matching assumption is essential to the state-count lower bound.
+The theorem does not claim seven-state minimality for arbitrary four-edge masks with repeated
+rows or columns.
+\end{remark}
+
+\section{An exact integer/real integrality gap}
+\label{sec:gap}
+
+We now pass from a local capacity drop to a genuinely infinite nested optimization.
+The theorem is stated directly from the following ten-state partial-matching instance; no
+auxiliary construction is needed for its proof.
+
+Let $U'\in\Z_{\ge0}^{10\times10}$ be
+{\small
+\[
+U'=
+\begin{pmatrix}
+1&0&1&0&0&2&0&0&0&0\\
+0&1&0&0&2&0&1&0&0&0\\
+0&0&1&0&1&1&0&0&1&0\\
+0&2&0&2&0&0&0&0&0&0\\
+0&0&2&1&1&0&0&0&0&0\\
+2&0&0&1&0&1&0&0&0&0\\
+0&0&0&0&0&0&3&1&0&0\\
+1&0&0&0&0&0&0&3&0&0\\
+0&0&0&0&0&0&0&0&3&1\\
+0&1&0&0&0&0&0&0&0&3
+\end{pmatrix}
+\]
+}
+and let
+\[
+Z'=E_{11}+E_{22}+E_{33}+E_{78}+E_{9,10}.
+\]
+
+\subsection{A persistent degree-two lower bound}
+
+\begin{lemma}[All tail layers have degree at least two]
+\label{lem:tail2}
+For every legal integer or real tail for $(U',Z')$,
+\[
+d_q\ge2
+\qquad(q\ge0).
+\]
+\end{lemma}
+
+\begin{proof}
+Support monotonicity and $H_0\le U'$ imply
+\[
+\supp H_q\subseteq\supp U'
+\qquad(q\ge0).
+\]
+Row $8$ of $U'$ is supported only on columns $1$ and $8$.
+The required mask has the edge $(1,1)$ in column $1$ and the edge $(7,8)$ in column $8$, both
+outside row $8$.
+For a $d_q$-regular feasible layer, the total mass in columns $1$ and $8$ is $2d_q$.
+Row $8$ contributes exactly $d_q$ to those columns, while the two required edges outside row $8$
+contribute at least two more.  Hence
+\[
+2d_q\ge d_q+2,
+\]
+and therefore $d_q\ge2$.
+\end{proof}
+
+\subsection{Integer optimum}
+
+\begin{lemma}[Reachable degree-three graph]
+\label{lem:reachgraph}
+There is no integer entrance state of degree at most two, and there is a unique integer
+degree-three entrance state
+\[
+Z'\le H_0\le U'.
+\]
+Under degree-three transitions $H'\le2H$, exactly four degree-three states are reachable, with
+nine directed transitions in total, and none of the four admits a degree-two successor containing
+$Z'$.
+\end{lemma}
+
+\begin{proof}
+This is a finite exact enumeration of regular matrices under the displayed capacities.
+The full state list and transitions are certified by the accompanying checker.
+No floating-point optimization is used.
+\end{proof}
+
+\begin{proposition}[Integer optimum]
+\label{prop:intopt}
+For $(U',Z')$,
+\[
+C_\infty^\Z(U',Z')=6.
+\]
+\end{proposition}
+
+\begin{proof}
+A constant degree-three chain is feasible, hence
+\[
+C_\infty^\Z\le3\sum_{q\ge0}2^{-q}=6.
+\]
+
+For the reverse inequality, Lemma~\ref{lem:reachgraph} gives $d_0\ge3$.
+If a legal integer chain never reaches degree two, then every layer has degree at least three and
+its cost is at least six.
+
+Otherwise let $t$ be the first degree-two layer.  Before time $t$, all degrees are at least three.
+By Lemma~\ref{lem:reachgraph}, a degree-three state in the reachable sector has no degree-two
+successor, so at least one layer $j<t$ has degree at least four.
+Relative to the constant degree-three chain, that layer contributes at least $2^{-j}$ extra.
+By Lemma~\ref{lem:tail2}, no later layer can have degree below two, so the maximum possible total
+saving after time $j$ is
+\[
+\sum_{q\ge j+1}2^{-q}=2^{-j}.
+\]
+Thus the increase cannot yield a net improvement, and every legal integer chain has cost at least
+six.
+\end{proof}
+
+\subsection{Real optimum}
+
+The following two matrices form an explicit relaxed entrance and tail:
+{\scriptsize
+\[
+H_0^\R=
+\begin{pmatrix}
+1&0&1/2&0&0&2&0&0&0&0\\
+0&1&0&0&3/2&0&1&0&0&0\\
+0&0&1&0&1&1/2&0&0&1&0\\
+0&3/2&0&2&0&0&0&0&0&0\\
+0&0&2&1/2&1&0&0&0&0&0\\
+3/2&0&0&1&0&1&0&0&0&0\\
+0&0&0&0&0&0&5/2&1&0&0\\
+1&0&0&0&0&0&0&5/2&0&0\\
+0&0&0&0&0&0&0&0&5/2&1\\
+0&1&0&0&0&0&0&0&0&5/2
+\end{pmatrix}.
+\]
+\[
+H_1^\R=
+\begin{pmatrix}
+1&0&1&0&0&0&0&0&0&0\\
+0&1&0&0&0&0&1&0&0&0\\
+0&0&1&0&0&0&0&0&1&0\\
+0&0&0&2&0&0&0&0&0&0\\
+0&0&0&0&2&0&0&0&0&0\\
+0&0&0&0&0&2&0&0&0&0\\
+0&0&0&0&0&0&1&1&0&0\\
+1&0&0&0&0&0&0&1&0&0\\
+0&0&0&0&0&0&0&0&1&1\\
+0&1&0&0&0&0&0&0&0&1
+\end{pmatrix}.
+\]
+}
+Their degrees are $7/2$ and $2$ respectively, and
+\[
+Z'\le H_0^\R\le U',
+\qquad
+Z'\le H_1^\R\le2H_0^\R.
+\]
+Taking $H_q^\R=H_1^\R$ for all $q\ge1$ gives
+\[
+C_\infty^\R\le\frac72+2=\frac{11}{2}.
+\]
+
+\begin{lemma}[Exact dual inequality]
+\label{lem:dual}
+Every feasible real pair $(H_0,H_1)$ for the first two layers satisfies
+\[
+2d_0+d_1\ge9.
+\]
+\end{lemma}
+
+\begin{proof}
+The inequality has an exact rational linear-programming dual certificate.
+It is obtained as an integer linear combination of row-regularity equalities,
+column-regularity equalities, one nesting inequality, active lower bounds, and active upper
+capacity bounds.  The complete coefficient list is reproduced in Appendix~\ref{app:dual} and is
+checked symbolically by the reproducibility package.
+\end{proof}
+
+\begin{proposition}[Real optimum]
+\label{prop:realopt}
+For $(U',Z')$,
+\[
+C_\infty^\R(U',Z')=\frac{11}{2}.
+\]
+\end{proposition}
+
+\begin{proof}
+The explicit chain above gives the upper bound.
+For the lower bound, Lemmas~\ref{lem:dual} and~\ref{lem:tail2} imply
+\[
+\begin{aligned}
+C_\infty^\R
+&=
+d_0+\frac12d_1+\sum_{q\ge2}2^{-q}d_q\\
+&\ge
+\frac12(2d_0+d_1)
++
+2\sum_{q\ge2}2^{-q}\\
+&\ge
+\frac92+1
+=
+\frac{11}{2}.
+\end{aligned}
+\]
+\end{proof}
+
+Combining Propositions~\ref{prop:intopt} and~\ref{prop:realopt} proves Theorem~C.
+
+\section{Stopping-tree realization}
+\label{sec:stopping}
+
+We now connect the same nested-cover mechanism to exact stopping trees through a separate
+six-state five-edge construction.  A small zero-sum correction of its negative support makes the
+matrix family bistochastic at every dyadic scale, allowing nested cover data to be read as
+cumulative stopping data.
+
+\subsection{Dyadic kernels and stopping trees}
+
+A matrix $A$ is \emph{bistochastic} if it is entrywise nonnegative and
+\[
+A\one=\one,
+\qquad
+A^\top\one=\one.
+\]
+It is \emph{dyadic} if every entry is a dyadic rational.  Its dyadic height is the least
+$d\ge0$ for which $2^dA$ is an integer matrix.  Floors of matrices are taken entrywise.
+
+A binary fair-bit stopping tree has probability $2^{-t}$ on each node at depth $t$.
+A terminal node is labeled by a permutation matrix.  The tree \emph{realizes} $A$ if it
+terminates almost surely and the probability-weighted sum of its terminal permutation matrices
+is exactly $A$.
+
+\subsection{Cumulative stopping matrices}
+
+Consider such a tree.
+For depth $t$, let $N_t$ be the sum of the permutation matrices attached to all leaves that have
+stopped by time $t$, counted at depth-$t$ multiplicity.
+If $N_t$ is $s_t$-regular, then the probability of still running after $t$ bits is
+\[
+1-\frac{s_t}{2^t}.
+\]
+
+\begin{proposition}[Integer nesting criterion]
+\label{prop:nesting}
+Let $A$ be a dyadic bistochastic matrix of height $d$.
+A cumulative stopping profile is realizable by a permutation-valued binary tree of depth $d$ if
+there are integer regular matrices $N_0,\ldots,N_d$ such that
+\[
+0\le N_t\le\lfloor2^tA\rfloor,
+\qquad
+N_{t+1}\ge2N_t,
+\qquad
+N_d=2^dA.
+\]
+\end{proposition}
+
+\begin{proof}
+Necessity is immediate from the tree.
+For sufficiency, let $s_t=\degm(N_t)$ and define the new stopping matrix
+\[
+X_t=N_t-2N_{t-1}
+\]
+(with $N_{-1}=0$ and $s_{-1}=0$).
+Then $X_t$ is nonnegative integer regular of degree
+\[
+x_t=s_t-2s_{t-1}.
+\]
+Decompose $X_t$ into $x_t$ permutation matrices.
+Before stopping new nodes at depth $t$, the number of unresolved binary-tree nodes is
+\[
+2^t-2s_{t-1}.
+\]
+The capacity inequality implies $s_t\le2^t$, hence
+\[
+x_t=s_t-2s_{t-1}\le2^t-2s_{t-1}.
+\]
+We may therefore assign the $x_t$ permutation matrices to distinct unresolved nodes and leave the
+remaining nodes alive.  Induction over $t$ realizes every $N_t$.
+Finally, $N_d=2^dA$ has degree $2^d$, so no live nodes remain at depth $d$ and the resulting tree
+realizes $A$ exactly.
+\end{proof}
+
+\begin{corollary}[Infinite nesting criterion]
+\label{cor:infinite-nesting}
+Let $A$ be bistochastic.  Suppose $(N_t)_{t\ge0}$ is a sequence of nonnegative integer regular
+matrices with degrees $s_t$ such that
+\[
+N_{t+1}\ge2N_t,
+\qquad
+N_t\le\lfloor2^tA\rfloor
+\quad(t\ge0),
+\]
+and
+\[
+\frac{N_t}{2^t}\longrightarrow A
+\]
+entrywise.  Then there is a permutation-valued infinite binary stopping tree realizing $A$, and
+it terminates almost surely.
+\end{corollary}
+
+\begin{proof}
+Set $X_t=N_t-2N_{t-1}$ as in Proposition~\ref{prop:nesting}.  Each $X_t$ is a nonnegative integer
+regular matrix of degree $x_t=s_t-2s_{t-1}$ and therefore decomposes into permutation matrices.
+Since $N_t\le\lfloor2^tA\rfloor$, we have $s_t\le2^t$, so
+\[
+x_t\le2^t-2s_{t-1},
+\]
+the number of unresolved nodes available at depth $t$.  We may therefore assign the permutation
+summands of $X_t$ to new stopping nodes inductively at every finite depth.
+
+At depth $t$, the cumulative realized matrix is $N_t/2^t$, which converges entrywise to $A$.
+Taking row sums and using bistochasticity gives
+\[
+\frac{s_t}{2^t}\longrightarrow1.
+\]
+Hence the unresolved probability
+\[
+1-\frac{s_t}{2^t}
+\]
+tends to zero, so the tree terminates almost surely and its terminal distribution realizes $A$.
+\end{proof}
+
+\subsection{An explicit six-state family}
+
+Let
+\[
+U=
+\begin{pmatrix}
+1&0&1&0&0&2\\
+1&1&0&0&2&0\\
+0&1&1&0&1&1\\
+0&2&0&2&0&0\\
+0&0&2&1&1&0\\
+2&0&0&1&0&1
+\end{pmatrix}.
+\]
+Let $P$ be the permutation matrix with row-columns $(3,5,6,2,4,1)$ and define
+\[
+H=U-P.
+\]
+The original five-edge core mask is
+\[
+Z_{\rm core}
+=
+E_{11}+E_{21}+E_{22}+E_{32}+E_{33}.
+\]
+For the stochastic embedding, use the corrected negative support
+\[
+\widehat Z
+=
+Z_{\rm core}+E_{44}+E_{55},
+\]
+and
+\[
+\widehat G
+=
+E_{12}+E_{23}+E_{24}+E_{31}+E_{35}+E_{41}+E_{52}
+-
+\widehat Z.
+\]
+Then
+\[
+\widehat G\one=0,
+\qquad
+\widehat G^\top\one=0,
+\]
+and $H$ is $3$-regular with $H\ge\widehat Z$.
+
+Define
+\[
+A_\infty=\frac{2J_6+U}{16},
+\qquad
+B=16A_\infty=2J_6+U,
+\]
+and for $\ell\ge0$,
+\[
+A_{4+\ell}
+=
+A_\infty+2^{-(4+\ell)}\widehat G.
+\]
+Set $s=4+\ell$.
+Because $U$ is $4$-regular and $\widehat G$ has zero row and column sums, every $A_s$ is
+bistochastic.  Moreover $U+\widehat G\ge0$, so $A_4\ge0$; for $\ell>0$ the perturbation has
+smaller magnitude entrywise, hence $A_s\ge0$ as well.  Thus every $A_s$ is a valid dyadic
+bistochastic kernel.
+
+\begin{theorem}[Finite stopping-tree family]
+\label{thm:finite-tree}
+For each $\ell\ge0$, define cumulative matrices by
+\[
+N_0=N_1=N_2=0,
+\qquad
+N_3=J_6,
+\]
+\[
+N_t=2^tA_\infty-H=2^{t-4}B-H
+\qquad(4\le t<s),
+\]
+and
+\[
+N_s=2^sA_s=2^{s-4}B+\widehat G.
+\]
+These matrices satisfy Proposition~\ref{prop:nesting}; hence they define an exact stopping tree for
+$A_s$.  Its expected fair-bit cost is
+\[
+\mathbb E T_\ell
+=
+\frac{29}{8}-\frac38\,2^{-\ell}.
+\]
+\end{theorem}
+
+\begin{proof}
+Regularity is immediate from the row and column sums.
+For $t\le2$ the capacity bound is trivial because $N_t=0$.
+At $t=3$,
+\[
+8A_s=\frac{B}{2}+2^{3-s}\widehat G.
+\]
+Every entry of $B$ is at least two.  On the negative support of $\widehat G$, the corresponding
+entry of $U$ is at least one, so the corresponding entry of $B$ is at least three.  Since
+$0<2^{3-s}\le1/2$, every entry of $8A_s$ is at least one.  Hence
+\[
+N_3=J_6\le\lfloor8A_s\rfloor.
+\]
+
+For $4\le t<s$, entrywise flooring of $2^tA_s$ can reduce an entry below
+$2^{t-4}B$ only on the negative support of $\widehat G$.
+Since $H\ge\widehat Z$, we have
+\[
+N_t\le\lfloor2^tA_s\rfloor.
+\]
+At the terminal depth, equality $N_s=2^sA_s$ holds by definition.
+
+The nesting increments are
+\[
+N_4-2N_3=P\ge0,
+\]
+at a nonterminal level four,
+\[
+N_{t+1}-2N_t=H\ge0
+\]
+between intermediate levels, and
+\[
+N_s-2N_{s-1}=\widehat G+2H\ge0
+\]
+at termination.  For $\ell=0$, the direct terminal increment is $U+\widehat G\ge0$.
+
+The cumulative degrees are
+\[
+\degm N_t=
+\begin{cases}
+0,&t=0,1,2,\\
+6,&t=3,\\
+2^t-3,&4\le t<s,\\
+2^s,&t=s.
+\end{cases}
+\]
+Therefore
+\[
+\begin{aligned}
+\mathbb E T_\ell
+&=
+\sum_{t=0}^{s-1}
+\left(1-\frac{\degm N_t}{2^t}\right)\\
+&=
+3+\left(1-\frac68\right)+\sum_{t=4}^{s-1}\frac{3}{2^t}\\
+&=
+\frac{29}{8}-\frac38\,2^{-\ell}.
+\end{aligned}
+\]
+\end{proof}
+
+\begin{theorem}[Infinite limiting tree]
+\label{thm:infinite-tree}
+The limiting kernel $A_\infty$ admits an exact infinite stopping tree with
+\[
+N_0=N_1=N_2=0,\qquad N_3=J_6,
+\]
+and
+\[
+N_t=2^tA_\infty-H
+\qquad(t\ge4).
+\]
+Its expected cost is
+\[
+\mathbb E T_\infty=\frac{29}{8}.
+\]
+\end{theorem}
+
+\begin{proof}
+For $t\ge4$,
+\[
+N_{t+1}-2N_t=H\ge0.
+\]
+Moreover
+\[
+\frac{N_t}{2^t}
+=
+A_\infty-\frac{H}{2^t}
+\longrightarrow A_\infty
+\]
+entrywise, while the surviving mass at level $t$ is exactly $3/2^t$.
+Corollary~\ref{cor:infinite-nesting} therefore gives an exact infinite stopping tree, and the
+surviving mass tends to zero, so the tree terminates almost surely.
+Summing the survival probabilities gives
+\[
+3+\left(1-\frac68\right)+\sum_{t\ge4}\frac{3}{2^t}
+=
+\frac{29}{8}.
+\]
+\end{proof}
+
+Theorems~\ref{thm:finite-tree} and~\ref{thm:infinite-tree} prove Theorem~D.
+
+\section{Computational certificates and reproducibility}
+\label{sec:repro}
+
+The reproducibility package separates analytic proof from finite computation.
+
+\begin{center}
+\small
+\begin{tabular}{@{}l p{0.31\textwidth} p{0.47\textwidth}@{}}
+\toprule
+Result & Finite checker & What is checked\\
+\midrule
+Theorem A &
+\path{reachability_rounding.py} &
+balanced-rounding construction and $M_r$ formula\\
+Theorem B &
+\path{four_edge_minimality.py} &
+cut arithmetic and sharp seven-state witness\\
+Theorem C &
+\path{integrality_gap.py} &
+integer state graph, real primal, and exact dual certificate\\
+Theorem D &
+\path{stopping_tree.py} &
+symbolic local identities, finite family, and infinite tail\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All theorem-facing pass/fail arithmetic in these scripts is integer or rational.
+A single public entry point runs the four suites and verifies the SHA-256 locked publication
+snapshot.
+
+The computation does not replace the analytic arguments in
+Theorem~\ref{thm:finite} or Theorem~\ref{thm:fourlower}.
+For Theorem~C, the finite state graph and rational dual identity are part of the certificate used
+by the proof; for Theorem~D, the checker verifies the explicit symbolic matrix identities.
+
+\section{Discussion}
+
+The results show that temporal compatibility introduces structure not visible in independent
+single-layer optimization.
+
+First, the infinite problem is nevertheless finitely determined: after degree trimming, every
+strict degree drop can be accelerated through a logarithmic number of balanced-rounding layers.
+The resulting $O(r\log r)$ bound depends only on the number of required edges.
+
+Second, local capacity improvement has a sharp small obstruction.
+For a four-edge partial matching, a $3\to2$ drop cannot occur below seven states.
+
+Third, the nested integer problem is genuinely nonconvex even when its real relaxation is simple.
+The ten-state construction gives the exact gap
+\[
+6-\frac{11}{2}=\frac12.
+\]
+
+Finally, the six-state family shows that the matrix certificates are operational: they can be
+assembled into complete exact stopping trees, including an infinite limiting tree of finite mean.
+
+Several directions remain outside the present publication unit.  The broader classification of
+simultaneous optimality for other support geometries, sharper bounds on the stabilization horizon,
+and structural conditions guaranteeing equality of integer and real nested optima are natural
+next questions.  These problems are intentionally not folded into the present theorem set.
+
+\appendix
+
+\section{Exact dual certificate for Theorem C}
+\label{app:dual}
+
+We record the coefficient data used to verify
+\[
+2d_0+d_1\ge9.
+\]
+Variables are the supported entries of the first two real layers together with $d_0,d_1$.
+The certificate combines row and column regularity equalities, one nesting inequality, lower
+bounds, and upper-capacity bounds.
+
+The nonzero equality multipliers are:
+\[
+\begin{array}{c|r}
+\text{constraint} & \text{multiplier}\\
+\hline
+(0,\mathrm{row}\ 4),(0,\mathrm{row}\ 5),(0,\mathrm{row}\ 6),
+(0,\mathrm{row}\ 8),(0,\mathrm{row}\ 10) & 2\\
+(0,\mathrm{col}\ 1),(0,\mathrm{col}\ 2),(0,\mathrm{col}\ 3),
+(0,\mathrm{col}\ 4),(0,\mathrm{col}\ 8),(0,\mathrm{col}\ 10) & -2\\
+(1,\mathrm{row}\ 2),(1,\mathrm{row}\ 3),(1,\mathrm{row}\ 5),
+(1,\mathrm{row}\ 7),(1,\mathrm{row}\ 9) & -1\\
+(1,\mathrm{col}\ 3),(1,\mathrm{col}\ 5),
+(1,\mathrm{col}\ 7),(1,\mathrm{col}\ 9) & 1
+\end{array}
+\]
+together with multiplier $-1$ on the nesting inequality at entry $(1,3)$ in one-based notation.
+
+The positive lower-bound multipliers are $2$ on
+\[
+H_{0,11},\ H_{0,22},\ H_{0,33},\ H_{0,78},\ H_{0,9,10}\ge1,
+\]
+and $1$ on
+\[
+H_{1,22}\ge1,\quad
+H_{1,36}\ge0,\quad
+H_{1,54}\ge0,\quad
+H_{1,78}\ge1,\quad
+H_{1,9,10}\ge1.
+\]
+The negative upper-bound multipliers are $-2$ on
+\[
+H_{0,55}\le1,
+\qquad
+H_{0,66}\le1.
+\]
+After collecting coefficients, every matrix variable cancels and the left-hand side becomes
+$2d_0+d_1$, while the bound constants sum to $9$.
+The accompanying exact checker evaluates the complete coefficient vector independently.
+
+\section{Reproducibility statement}
+
+The publication snapshot is generated from a private canonical repository by an explicit
+allowlist manifest.  Every exported artifact is SHA-256 pinned.  The exporter fails if any
+canonical artifact drifts from its frozen digest.
+
+The public command
+\[
+\texttt{python verify.py}
+\]
+checks snapshot integrity and independently runs all finite certificate suites.
+Its intended interpretation is:
+
+\begin{quote}
+The command verifies the finite certificates and computational claims shipped with this
+publication snapshot.  Analytic proofs are contained in the paper and are not formally verified
+by these scripts.
+\end{quote}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

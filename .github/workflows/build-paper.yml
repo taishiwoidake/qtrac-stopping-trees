@@ -1,0 +1,75 @@
+name: Build and publish technical-v1 PDF
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "paper/preprint_v1.tex"
+      - "paper/references.bib"
+      - "RELEASE.json"
+      - ".github/workflows/build-paper.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_DATE_EPOCH: "1790812800"
+      FORCE_SOURCE_DATE: "1"
+      TZ: "UTC"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build PDF first pass
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: preprint_v1.tex
+          working_directory: paper
+
+      - name: Preserve first PDF and clean generated files
+        run: |
+          cp paper/preprint_v1.pdf /tmp/preprint-first.pdf
+          rm -f \
+            paper/preprint_v1.pdf \
+            paper/preprint_v1.aux \
+            paper/preprint_v1.bbl \
+            paper/preprint_v1.blg \
+            paper/preprint_v1.log \
+            paper/preprint_v1.out \
+            paper/preprint_v1.fls \
+            paper/preprint_v1.fdb_latexmk
+
+      - name: Build PDF second pass
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: preprint_v1.tex
+          working_directory: paper
+
+      - name: Verify reproducibility and frozen hash
+        run: |
+          cmp /tmp/preprint-first.pdf paper/preprint_v1.pdf
+          actual="$(sha256sum paper/preprint_v1.pdf | awk '{print $1}')"
+          expected="$(python - <<'PY'
+          import json
+          print(json.load(open('RELEASE.json'))['technical_preprint']['pdf_sha256'])
+          PY
+          )"
+          echo "actual=$actual"
+          echo "expected=$expected"
+          test "$actual" = "$expected"
+
+      - name: Commit frozen PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper/preprint_v1.pdf
+          if git diff --cached --quiet; then
+            echo "PDF already frozen in repository."
+          else
+            git commit -m "Add reproducible technical-v1 PDF [skip ci]"
+            git push
+          fi

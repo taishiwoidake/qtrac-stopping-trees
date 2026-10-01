@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "claim": "complete stopping-tree certificate for the corrected five-edge six-state construction",
+  "checker": "checkers/tail/stopping_tree.py",
+  "proof": "papers/tail/STOPPING_TREE.md",
+  "finite_family": {
+    "target": "A_{4+ell}=A_infty+2^{-(4+ell)} Ghat",
+    "N_0_to_N_2": "0",
+    "N_3": "J_6",
+    "N_t_4_to_s_minus_1": "2^t A_infty-H",
+    "N_s": "2^s A_s",
+    "terminal_depth": "s=4+ell",
+    "expected_cost": "29/8 - (3/8) 2^{-ell}"
+  },
+  "infinite_limit": {
+    "target": "A_infty=(2J_6+U)/16",
+    "N_t_for_t_ge_4": "2^t A_infty-H",
+    "survival_for_t_ge_4": "3/2^t",
+    "expected_cost": "29/8"
+  },
+  "scope": "Exact cumulative stopping-tree certificate; permutation-tree existence follows from the integer nesting criterion."
+}

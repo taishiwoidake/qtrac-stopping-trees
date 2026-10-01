@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "claim": "four-edge partial-matching 3-to-2 transition requires at least seven states",
+  "scope": {
+    "U": "nonnegative integer regular capacity matrix",
+    "Z": "exactly four 0-1 required edges with distinct rows and distinct columns"
+  },
+  "lower_bound": {
+    "assumptions": [
+      "kappa_Z(U)=3",
+      "kappa_Z(2U)=2"
+    ],
+    "forced_cut_parameters": {
+      "s": 1,
+      "z": 4,
+      "u": 1
+    },
+    "consequence": "n>=7"
+  },
+  "sharp_witness": {
+    "dimension": 7,
+    "Z_edges_1_based": [
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        4,
+        4
+      ]
+    ],
+    "kappa_Z_U": 3,
+    "kappa_Z_2U": 2
+  },
+  "proof": "papers/tail/FOUR_EDGE_MINIMALITY.md",
+  "checker": "checkers/tail/four_edge_minimality.py"
+}
