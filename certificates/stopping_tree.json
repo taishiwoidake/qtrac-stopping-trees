@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "claim": "complete stopping-tree certificate for the corrected five-edge six-state construction",
-  "checker": "checkers/tail/stopping_tree.py",
-  "proof": "papers/tail/STOPPING_TREE.md",
+  "checker": "checkers/stopping_tree.py",
+  "proof": "paper/proofs/stopping_tree.md",
   "finite_family": {
     "target": "A_{4+ell}=A_infty+2^{-(4+ell)} Ghat",
     "N_0_to_N_2": "0",

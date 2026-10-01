@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "scope": "Exact integer/real tail integrality gap for the ten-state partial-matching lift",
-  "checker": "checkers/tail/integrality_gap.py",
+  "checker": "checkers/integrality_gap.py",
   "claims": {
     "integer_optimum": "6",
     "real_optimum": "11/2",

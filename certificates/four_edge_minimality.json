@@ -40,6 +40,6 @@
     "kappa_Z_U": 3,
     "kappa_Z_2U": 2
   },
-  "proof": "papers/tail/FOUR_EDGE_MINIMALITY.md",
-  "checker": "checkers/tail/four_edge_minimality.py"
+  "proof": "paper/proofs/four_edge_minimality.md",
+  "checker": "checkers/four_edge_minimality.py"
 }

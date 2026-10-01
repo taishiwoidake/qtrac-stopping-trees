@@ -258,6 +258,6 @@ Consequently the infinite optimization reduces to a finite optimization over the
 
 ## Verification code
 
-The file checkers/tail/reachability_rounding.py implements the Eulerian odd-support rounding construction on exact integer fixtures and verifies the closed form for \(M_r\) for \(2\le r<100\).
+The file checkers/reachability_rounding.py implements the Eulerian odd-support rounding construction on exact integer fixtures and verifies the closed form for \(M_r\) for \(2\le r<100\).
 
 The code is supplementary. The universal statement is the analytic argument above.

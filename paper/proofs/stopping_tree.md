@@ -111,6 +111,6 @@ The surviving mass at every \(t\ge4\) is exactly \(3/2^t\). Hence
 
 ## Verification
 
-The repository checker `checkers/tail/stopping_tree.py` verifies the symbolic local conditions that imply the construction for every \(\ell\ge0\), checks finite instances \(0\le\ell\le32\), and verifies the exact infinite-tail identity.
+The repository checker `checkers/stopping_tree.py` verifies the symbolic local conditions that imply the construction for every \(\ell\ge0\), checks finite instances \(0\le\ell\le32\), and verifies the exact infinite-tail identity.
 
 Existence of an actual permutation-valued stopping tree from the cumulative integer matrices follows from the exact integer nesting criterion recorded in the stopping/nesting line.

@@ -2,9 +2,7 @@
   "publication_id": "nested-regular-covers-v1",
   "paper_version": "technical-v1",
   "certificate_schema": 1,
-  "canonical_repository": "taishiwoidake/QTRAC",
-  "research_source_commit": "20e12deac07dfb9456547bb40da8af872c6688cd",
-  "manifest_sha256": "4043dabea85f9336768303f5b40aa4b425d4fe97046a94a2e0d321fc42892e59",
+  "source_manifest_sha256": "685c53ed2796960addf7aac33ecabb5bca7c9a23bed75268674df496d85bfb41",
   "artifacts": [
     {
       "destination": "paper/preprint_v1.tex",
@@ -18,22 +16,22 @@
     },
     {
       "destination": "paper/proofs/finite_layer.md",
-      "sha256": "4dc9e6412e350bf27203606f4f1a3bc5b0d04625dac95ae89003ff93c40ccca5",
+      "sha256": "b84a7f21595db65c4a376a1f6b3b75fa0344eaf2b9ca029be34749b2d36a044e",
       "role": "analytic-proof"
     },
     {
       "destination": "paper/proofs/four_edge_minimality.md",
-      "sha256": "98a194ccfad8696768beb79d711fcf51bb8f3f2c536733a9106a7980d30f1fdf",
+      "sha256": "1ab7a0b9ad77c6599c2383f047fed60a0978e40ea5426c9e80e1144824ed8731",
       "role": "analytic-proof"
     },
     {
       "destination": "paper/proofs/integrality_gap.md",
-      "sha256": "802b4df1069643107e4e71bef042f4e29c23965553d20bdfb81d1a379390a67e",
+      "sha256": "0962afab37a4f146dda17e20ef54377ef8ad949989ba29c30bf5c8974d4d1384",
       "role": "analytic-proof-and-certificate-explanation"
     },
     {
       "destination": "paper/proofs/stopping_tree.md",
-      "sha256": "c12a6586c5de1cc38e0ac0ad9f18ffd1b0dfddf3495529d20d50d9bbdb7dd521",
+      "sha256": "e269b7c40d9f77b087b577c078d56251223ed78e4c4da3cad1ccf629270fbcd8",
       "role": "analytic-proof-and-certificate-explanation"
     },
     {
@@ -58,53 +56,53 @@
     },
     {
       "destination": "certificates/finite_layer.json",
-      "sha256": "be49d89c191002f9a8e4c6eabf19ed35ed3fac0470752f8176959e9b21f7dcf6",
+      "sha256": "1c3a56905c5d139ea1c2f53b18f8972a738f1338b3d2b9f6c87399da89eb1aa9",
       "role": "certificate-manifest"
     },
     {
       "destination": "certificates/four_edge_minimality.json",
-      "sha256": "a3cf01a6568cd4b5807e36c2f0233b006d845b093b7505080c4d8abed4794a3c",
+      "sha256": "434f3b3ef71c1bfd28239e8986c33f9a88aaf556f3095172e756f2461ba15428",
       "role": "certificate-manifest"
     },
     {
       "destination": "certificates/integrality_gap.json",
-      "sha256": "a9e87e3b12ade96553eb65a55d8d9d11c98c2b35d32f7e697af3c3753428127d",
+      "sha256": "94df80a15237b571608e6139e2396fb01cfba64f7dbaa10a729e23d98642fc52",
       "role": "certificate-manifest"
     },
     {
       "destination": "certificates/stopping_tree.json",
-      "sha256": "9493b01ecdc91220828a4069f0dbf40d5a03025131173741fd74920ba0bf5676",
+      "sha256": "f494d9237a0d142f857574d1f7dd8595efa2f7d68d4dee7eb7f5b212f95f6fe3",
       "role": "certificate-manifest"
     },
     {
       "destination": "README.md",
-      "sha256": "832c5d554c50e649cd863a315f34dc18445ffa2fca65996b46c802e18f6da482",
+      "sha256": "e201985b97223c0c52dd15f5d5d270fecfe46196a117eccc3a9db4466ea0a55d",
       "role": "public-readme"
     },
     {
       "destination": "verify.py",
-      "sha256": "4e93ce3891134ca04badc11009bd4556eeb2adbf4731789c9bdd7f9ba0b028de",
+      "sha256": "0f18b2cf7e683dee417c907400cf90d306d6512557ae88915743e11034c074b3",
       "role": "one-command-verifier"
     },
     {
       "destination": "RELEASE.json",
-      "sha256": "7a9aa708b3abd4e62210a8cd1483493748104698bbbda73e164905275a068c2c",
+      "sha256": "176589c8934b857c1a18ba6a3d949519eae88936abe3af9cfa17a6ff97844633",
       "role": "release-metadata"
     },
     {
       "destination": ".github/workflows/verify.yml",
-      "sha256": "e3eca736788262f06b80f0ac8f9312dea3925c50c1c882e0bcc391da93b732d0",
+      "sha256": "ab3e2f2cabea64cbbf9a8039061b703b6d973a077f544bd866acf9d4b10d7258",
       "role": "public-ci"
     },
     {
       "destination": "THEOREM_MAP.md",
-      "sha256": "312b9b940b10ea1418a7fcb6c4eb74ee10c1ba7b0775456dba07c7a9bda60941",
-      "role": "theorem-scope-map"
+      "sha256": "b6269eb3b0ca6fa7500c403c109b33862db6a5e8e5095dea9dfdffba7aeee2f4",
+      "role": "public-theorem-evidence-map"
     },
     {
       "destination": ".github/workflows/build-paper.yml",
-      "sha256": "41249517959cf80cec86a9d225146cd41c03fecda2dfc2f8849434207b6acd41",
-      "role": "reproducible-pdf-builder"
+      "sha256": "67396e1564cdd9dafda9e5e46de53db29e8539ee0ab70871989ed7cd7d4cbee9",
+      "role": "reproducible-pdf-verifier"
     }
   ]
 }
