@@ -155,7 +155,7 @@ C_\infty^{\mathbb R}=\frac{11}{2}.
 Run
 
 \[
-\texttt{python -O checkers/tail/integrality_gap.py}.
+\texttt{python -O checkers/integrality_gap.py}.
 \]
 
 The checker uses only Python's standard library and exact rational/integer arithmetic.
