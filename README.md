@@ -50,7 +50,7 @@ C_\infty^{\mathbb R}=\frac{11}{2}.
 ```
 
 The analytic manuscript is in `paper/preprint_v1.tex`; the bibliography is in `paper/references.bib`.
-The PDF is built reproducibly by GitHub Actions and committed to `paper/preprint_v1.pdf`.
+The frozen PDF is committed at `paper/preprint_v1.pdf`.
 
 ## Verify the finite evidence
 
@@ -64,6 +64,9 @@ Expected summary:
 
 ```text
 [PASS] snapshot integrity
+[PASS] publication metadata consistency
+[PASS] privacy boundary
+[PASS] frozen PDF hash
 [PASS] Theorem A finite construction checks
 [PASS] Theorem B finite certificate
 [PASS] Theorem C exact primal/dual certificate
@@ -71,7 +74,7 @@ Expected summary:
 All finite certificates and computational claims passed.
 ```
 
-The command independently checks the finite certificates and computational claims shipped with this publication snapshot.
+The command checks the public snapshot metadata, privacy boundary, frozen PDF hash when the PDF is present, and the finite certificates and computational claims shipped with this publication snapshot.
 
 It does **not** formally verify the analytic proofs of the general theorems.
 
@@ -82,23 +85,23 @@ It does **not** formally verify the analytic proofs of the general theorems.
 - `paper/proofs/` — theorem-facing proof notes.
 - `checkers/` — exact finite verification programs.
 - `certificates/` — machine-readable certificate manifests.
-- `THEOREM_MAP.md` — claim-to-evidence scope.
-- `SOURCE_MANIFEST.json` — allowlisted canonical sources and SHA-256 digests.
+- `THEOREM_MAP.md` — public claim-to-evidence scope.
+- `SOURCE_MANIFEST.json` — public artifact manifest with SHA-256 digests.
 - `PUBLICATION_LOCK.json` — generated snapshot lock.
-- `.github/workflows/verify.yml` — finite-evidence CI.
-- `.github/workflows/build-paper.yml` — reproducible PDF build and frozen-hash check.
+- `.github/workflows/verify.yml` — finite-evidence and integrity CI.
+- `.github/workflows/build-paper.yml` — read-only reproducible PDF build and frozen-hash check.
 
 ## Reproducibility scope
 
 The theorem-facing verification code uses Python's standard library and exact integer/rational arithmetic.
 
-The PDF build is also checked for byte-for-byte reproducibility. Its frozen SHA-256 is recorded in `RELEASE.json`.
+The PDF build is checked for byte-for-byte reproducibility. CI rebuilds it twice from clean generated state, compares the two outputs, and verifies that the result matches the frozen PDF and SHA-256 recorded in `RELEASE.json`.
 
 ## Version
 
 Paper version: **technical-v1**.
 
-This public repository is a publication snapshot. The private QTRAC research repository remains the canonical research workspace.
+This repository is a frozen publication snapshot. Research-workspace provenance and unpublished research lines are deliberately excluded from the public metadata.
 
 ## Citation and license
 
