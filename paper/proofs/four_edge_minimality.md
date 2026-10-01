@@ -179,4 +179,4 @@ The partial-matching hypothesis is essential to this state-count lower bound. Th
 
 ## Verification
 
-The file `checkers/tail/four_edge_minimality.py` verifies the explicit witness, evaluates the cut formula exactly, and checks the finite arithmetic implication that forces \((s,z,u)=(1,4,1)\).
+The file `checkers/four_edge_minimality.py` verifies the explicit witness, evaluates the cut formula exactly, and checks the finite arithmetic implication that forces \((s,z,u)=(1,4,1)\).
