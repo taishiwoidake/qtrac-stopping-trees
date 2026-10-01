@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """One-command verification entry point for the public publication snapshot.
 
-This program verifies snapshot integrity plus finite certificates and
-computational claims. It does not formally verify the analytic proofs.
+This program verifies public snapshot integrity, publication-metadata
+consistency, the privacy boundary, the frozen PDF when present, and finite
+certificates/computational claims. It does not formally verify the analytic
+proofs.
 """
 from __future__ import annotations
 
@@ -22,6 +24,23 @@ SUITES = [
     ("Theorem D stopping-tree certificate", ROOT / "checkers" / "stopping_tree.py"),
 ]
 
+FORBIDDEN_PUBLIC_TEXT = (
+    "taishiwoidake/" + "QTRAC",
+    "canonical_" + "repository",
+    "research_source_" + "commit",
+    "QTRAC-" + "TAIL-",
+    "papers/" + "tail/",
+    "checkers/" + "tail/",
+    "certificates/" + "tail/",
+    "excluded_" + "from_v1",
+    "Xime" + "ste",
+    "Arithmetic " + "Power-Lift",
+    "Closed " + "Control",
+    "Chat" + "GPT",
+    "AI-" + "generated",
+    "chat " + "history",
+)
+
 
 def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
@@ -31,10 +50,38 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def verify_lock() -> None:
-    lock_path = ROOT / "PUBLICATION_LOCK.json"
-    data = json.loads(lock_path.read_text(encoding="utf-8"))
-    for item in data["artifacts"]:
+def load_json(name: str) -> dict:
+    return json.loads((ROOT / name).read_text(encoding="utf-8"))
+
+
+def verify_lock() -> tuple[dict, dict]:
+    lock = load_json("PUBLICATION_LOCK.json")
+    manifest_path = ROOT / "SOURCE_MANIFEST.json"
+    if not manifest_path.is_file():
+        raise RuntimeError("missing SOURCE_MANIFEST.json")
+
+    actual_manifest = sha256_file(manifest_path)
+    expected_manifest = lock.get("source_manifest_sha256")
+    if actual_manifest != expected_manifest:
+        raise RuntimeError(
+            "source manifest hash mismatch\n"
+            f" expected {expected_manifest}\n"
+            f" actual   {actual_manifest}"
+        )
+
+    manifest = load_json("SOURCE_MANIFEST.json")
+    locked = {
+        (item["destination"], item["sha256"], item.get("role"))
+        for item in lock["artifacts"]
+    }
+    manifested = {
+        (item["path"], item["sha256"], item.get("role"))
+        for item in manifest["artifacts"]
+    }
+    if locked != manifested:
+        raise RuntimeError("SOURCE_MANIFEST.json and PUBLICATION_LOCK.json disagree")
+
+    for item in lock["artifacts"]:
         path = ROOT / item["destination"]
         if not path.is_file():
             raise RuntimeError(f"missing exported artifact: {item['destination']}")
@@ -45,6 +92,56 @@ def verify_lock() -> None:
                 f" expected {item['sha256']}\n"
                 f" actual   {actual}"
             )
+    return lock, manifest
+
+
+def verify_metadata(lock: dict, manifest: dict) -> dict:
+    release = load_json("RELEASE.json")
+    fields = ("publication_id", "paper_version", "certificate_schema")
+    for field in fields:
+        values = (lock.get(field), manifest.get(field), release.get(field))
+        if len(set(values)) != 1:
+            raise RuntimeError(f"metadata disagreement for {field}: {values}")
+
+    if manifest.get("title") != release.get("title"):
+        raise RuntimeError("title disagreement between SOURCE_MANIFEST.json and RELEASE.json")
+
+    manifest_pdf = manifest.get("technical_preprint", {})
+    release_pdf = release.get("technical_preprint", {})
+    for field in ("pdf_sha256", "pages", "reproducible_build"):
+        if manifest_pdf.get(field) != release_pdf.get(field):
+            raise RuntimeError(f"technical_preprint disagreement for {field}")
+
+    return release
+
+
+def verify_privacy_boundary() -> None:
+    for path in ROOT.rglob("*"):
+        if not path.is_file():
+            continue
+        try:
+            content = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        for forbidden in FORBIDDEN_PUBLIC_TEXT:
+            if forbidden in content:
+                rel = path.relative_to(ROOT)
+                raise RuntimeError(f"forbidden public text {forbidden!r} in {rel}")
+
+
+def verify_pdf(release: dict) -> bool:
+    pdf_path = ROOT / "paper" / "preprint_v1.pdf"
+    if not pdf_path.is_file():
+        return False
+    expected = release["technical_preprint"]["pdf_sha256"]
+    actual = sha256_file(pdf_path)
+    if actual != expected:
+        raise RuntimeError(
+            "frozen PDF hash mismatch\n"
+            f" expected {expected}\n"
+            f" actual   {actual}"
+        )
+    return True
 
 
 def run_suite(label: str, path: Path) -> None:
@@ -64,13 +161,25 @@ def run_suite(label: str, path: Path) -> None:
 
 def main() -> int:
     try:
-        verify_lock()
+        lock, manifest = verify_lock()
+        print("[PASS] snapshot integrity")
+
+        release = verify_metadata(lock, manifest)
+        print("[PASS] publication metadata consistency")
+
+        verify_privacy_boundary()
+        print("[PASS] privacy boundary")
+
+        pdf_present = verify_pdf(release)
+        if pdf_present:
+            print("[PASS] frozen PDF hash")
+        else:
+            print("[INFO] frozen PDF not present in this source-only export")
     except Exception as exc:
-        print("[FAIL] snapshot integrity")
+        print("[FAIL] publication snapshot")
         print(exc)
         return 1
 
-    print("[PASS] snapshot integrity")
     for label, path in SUITES:
         run_suite(label, path)
 
