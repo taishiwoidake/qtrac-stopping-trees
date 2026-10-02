@@ -10,3 +10,7 @@ version: "technical-v1"
 date-released: 2026-10-01
 repository-code: "https://github.com/taishiwoidake/qtrac-stopping-trees"
 url: "https://github.com/taishiwoidake/qtrac-stopping-trees"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23095061"
+    description: "Archived technical-v1 release on Zenodo"

@@ -107,7 +107,10 @@ This repository is a frozen publication snapshot. Research-workspace provenance 
 
 Author: **Ryunosuke Hirata** · ORCID: [0009-0009-3648-6042](https://orcid.org/0009-0009-3648-6042)
 
-Machine-readable citation metadata are provided in `CITATION.cff`. A DOI or arXiv identifier has not yet been assigned to this technical version.
+Version DOI: [10.5281/zenodo.23095061](https://doi.org/10.5281/zenodo.23095061)  
+All-versions DOI: [10.5281/zenodo.23095060](https://doi.org/10.5281/zenodo.23095060)
+
+Machine-readable citation metadata are provided in `CITATION.cff`. No arXiv identifier has been assigned to this technical version.
 
 ## Rights
 

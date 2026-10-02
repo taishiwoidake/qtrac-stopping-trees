@@ -6,8 +6,8 @@
   "paper_version": "technical-v1",
   "certificate_schema": 1,
   "public_repository": "https://github.com/taishiwoidake/qtrac-stopping-trees",
-  "repository_release": null,
-  "git_tag": null,
+  "repository_release": "https://github.com/taishiwoidake/qtrac-stopping-trees/releases/tag/technical-v1",
+  "git_tag": "technical-v1",
   "preprint_identifier": null,
   "technical_preprint": {
     "pdf_sha256": "558f8ec715b3082ad8a9e09e76b9b3071042349c3ab4bc7788abd7a36124177b",
@@ -20,5 +20,11 @@
       "family_name": "Hirata",
       "orcid": "https://orcid.org/0009-0009-3648-6042"
     }
-  ]
+  ],
+  "zenodo": {
+    "version_doi": "10.5281/zenodo.23095061",
+    "concept_doi": "10.5281/zenodo.23095060",
+    "version_url": "https://doi.org/10.5281/zenodo.23095061",
+    "concept_url": "https://doi.org/10.5281/zenodo.23095060"
+  }
 }
