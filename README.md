@@ -109,6 +109,8 @@ Author: **Ryunosuke Hirata** · ORCID: [0009-0009-3648-6042](https://orcid.org/0
 
 Machine-readable citation metadata are provided in `CITATION.cff`. A DOI or arXiv identifier has not yet been assigned to this technical version.
 
-## License
+## Rights
 
-A final license has not yet been assigned to the technical-v1 publication package.
+Technical-v1 is publicly accessible for reading, verification, and citation, but no general reuse license is granted at this stage. See `RIGHTS.md`.
+
+Zenodo metadata uses the conservative `other-closed` rights category so that depositing this release does not silently default the research package to CC BY.
