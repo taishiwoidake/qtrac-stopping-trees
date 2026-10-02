@@ -102,7 +102,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "9e5bf044ef75acebf21f0692350f8e9137575169a7a30aaa0c1322a59e3dfdea",
+      "sha256": "9e0d71c17d03f0f48bad592a09064dabf3373802897cd1417458b6f23b404c47",
       "role": "public-readme"
     },
     {
@@ -112,7 +112,7 @@
     },
     {
       "path": "RELEASE.json",
-      "sha256": "0d1c2724e76475ae8e03d5b411d385f97efdb9752a69470628ecfb511ac33fe9",
+      "sha256": "357e58afe1790bedd482eb30fa63a451cbed524a36d52b42b9dcfcf0647f7893",
       "role": "release-metadata"
     },
     {
@@ -132,7 +132,7 @@
     },
     {
       "path": "CITATION.cff",
-      "sha256": "ba5e1643661aaf66e0c7639c07d9b7c0caf5642d5baa2ea499dee730c97f3e6f",
+      "sha256": "b0f9be7db0fe875e3325d8ac76d70ed843cd0d639a89870bdb54079ba577c995",
       "role": "citation-metadata"
     },
     {
@@ -145,5 +145,11 @@
       "sha256": "33b3febf927cd8d507111a7fd6f2a5e66fae079f75121b93f9703b8758169a72",
       "role": "rights-notice"
     }
-  ]
+  ],
+  "repository_release": "https://github.com/taishiwoidake/qtrac-stopping-trees/releases/tag/technical-v1",
+  "git_tag": "technical-v1",
+  "zenodo": {
+    "version_doi": "10.5281/zenodo.23095061",
+    "concept_doi": "10.5281/zenodo.23095060"
+  }
 }
