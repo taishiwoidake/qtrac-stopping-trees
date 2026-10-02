@@ -102,7 +102,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "e201985b97223c0c52dd15f5d5d270fecfe46196a117eccc3a9db4466ea0a55d",
+      "sha256": "c561334ae93e75c0ee4df3cb3e4833580b905f8432f32f83111dd91b4b966e00",
       "role": "public-readme"
     },
     {
@@ -112,7 +112,7 @@
     },
     {
       "path": "RELEASE.json",
-      "sha256": "176589c8934b857c1a18ba6a3d949519eae88936abe3af9cfa17a6ff97844633",
+      "sha256": "0d1c2724e76475ae8e03d5b411d385f97efdb9752a69470628ecfb511ac33fe9",
       "role": "release-metadata"
     },
     {
@@ -129,6 +129,11 @@
       "path": ".github/workflows/build-paper.yml",
       "sha256": "1db53868456c671a82da2b46ad45a1e0eb3fc9c9323fcc10bc05268dddb1a6cc",
       "role": "reproducible-pdf-verifier"
+    },
+    {
+      "path": "CITATION.cff",
+      "sha256": "ba5e1643661aaf66e0c7639c07d9b7c0caf5642d5baa2ea499dee730c97f3e6f",
+      "role": "citation-metadata"
     }
   ]
 }
