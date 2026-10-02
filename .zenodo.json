@@ -1,0 +1,24 @@
+{
+  "creators": [
+    {
+      "name": "Hirata, Ryunosuke",
+      "orcid": "0009-0009-3648-6042"
+    }
+  ],
+  "title": "Nested Regular Covers and Stopping Trees: Finite Stabilization, Sharp Thresholds, and Integrality Gaps",
+  "version": "technical-v1",
+  "publication_date": "2026-10-01",
+  "description": "Frozen technical-v1 reproducibility package containing the manuscript source and PDF, theorem-facing proof notes, exact finite checkers, machine-readable certificates, and reproducibility metadata.",
+  "access_right": "open",
+  "license": "other-closed",
+  "upload_type": "software",
+  "language": "eng",
+  "keywords": [
+    "mathematical computer science",
+    "complexity",
+    "reversible computation",
+    "stopping trees",
+    "exact verification",
+    "reproducible research"
+  ]
+}
