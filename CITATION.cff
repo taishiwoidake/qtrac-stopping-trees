@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this technical-v1 reproducibility package, please cite it using the metadata below."
+title: "Nested Regular Covers and Stopping Trees: Finite Stabilization, Sharp Thresholds, and Integrality Gaps"
+type: software
+authors:
+  - family-names: "Hirata"
+    given-names: "Ryunosuke"
+    orcid: "https://orcid.org/0009-0009-3648-6042"
+version: "technical-v1"
+date-released: 2026-10-01
+repository-code: "https://github.com/taishiwoidake/qtrac-stopping-trees"
+url: "https://github.com/taishiwoidake/qtrac-stopping-trees"
