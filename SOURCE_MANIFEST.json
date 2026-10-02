@@ -102,7 +102,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "c561334ae93e75c0ee4df3cb3e4833580b905f8432f32f83111dd91b4b966e00",
+      "sha256": "9e5bf044ef75acebf21f0692350f8e9137575169a7a30aaa0c1322a59e3dfdea",
       "role": "public-readme"
     },
     {
@@ -134,6 +134,16 @@
       "path": "CITATION.cff",
       "sha256": "ba5e1643661aaf66e0c7639c07d9b7c0caf5642d5baa2ea499dee730c97f3e6f",
       "role": "citation-metadata"
+    },
+    {
+      "path": ".zenodo.json",
+      "sha256": "76b52b603d2a6e289683ce66ef369e225e4e1408aa975bf9112b87b146df8bbf",
+      "role": "zenodo-release-metadata"
+    },
+    {
+      "path": "RIGHTS.md",
+      "sha256": "33b3febf927cd8d507111a7fd6f2a5e66fae079f75121b93f9703b8758169a72",
+      "role": "rights-notice"
     }
   ]
 }
