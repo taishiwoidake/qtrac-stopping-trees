@@ -13,5 +13,12 @@
     "pdf_sha256": "558f8ec715b3082ad8a9e09e76b9b3071042349c3ab4bc7788abd7a36124177b",
     "pages": 16,
     "reproducible_build": "PASS"
-  }
+  },
+  "authors": [
+    {
+      "given_name": "Ryunosuke",
+      "family_name": "Hirata",
+      "orcid": "https://orcid.org/0009-0009-3648-6042"
+    }
+  ]
 }

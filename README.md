@@ -103,6 +103,12 @@ Paper version: **technical-v1**.
 
 This repository is a frozen publication snapshot. Research-workspace provenance and unpublished research lines are deliberately excluded from the public metadata.
 
-## Citation and license
+## Citation
 
-Citation metadata and licensing are kept separate from the mathematical verification package and are finalized at publication time.
+Author: **Ryunosuke Hirata** · ORCID: [0009-0009-3648-6042](https://orcid.org/0009-0009-3648-6042)
+
+Machine-readable citation metadata are provided in `CITATION.cff`. A DOI or arXiv identifier has not yet been assigned to this technical version.
+
+## License
+
+A final license has not yet been assigned to the technical-v1 publication package.
