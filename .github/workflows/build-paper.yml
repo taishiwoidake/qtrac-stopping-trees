@@ -30,13 +30,13 @@ jobs:
       FORCE_SOURCE_DATE: "1"
       TZ: "UTC"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Preserve frozen PDF
         run: cp paper/preprint_v1.pdf /tmp/preprint-frozen.pdf
 
       - name: Build PDF first pass
-        uses: xu-cheng/latex-action@v3
+        uses: xu-cheng/latex-action@e2f99d4b3685b0da93f97e1b86ad8fab81105098 # v3 / 3.3.0
         with:
           root_file: preprint_v1.tex
           working_directory: paper
@@ -55,7 +55,7 @@ jobs:
             paper/preprint_v1.fdb_latexmk
 
       - name: Build PDF second pass
-        uses: xu-cheng/latex-action@v3
+        uses: xu-cheng/latex-action@e2f99d4b3685b0da93f97e1b86ad8fab81105098 # v3 / 3.3.0
         with:
           root_file: preprint_v1.tex
           working_directory: paper
