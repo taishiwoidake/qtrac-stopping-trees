@@ -2,7 +2,7 @@
   "publication_id": "nested-regular-covers-v1",
   "paper_version": "technical-v1",
   "certificate_schema": 1,
-  "source_manifest_sha256": "e2ce87ebc94a4360bf22110249ac001a75e6c1be8159458f968814d15835601e",
+  "source_manifest_sha256": "c51fdbec5a398d44ba71c3f880e158625f3d1b063cdd5df5c764d4951c46e907",
   "artifacts": [
     {
       "destination": "paper/preprint_v1.tex",
@@ -101,7 +101,7 @@
     },
     {
       "destination": ".github/workflows/build-paper.yml",
-      "sha256": "1db53868456c671a82da2b46ad45a1e0eb3fc9c9323fcc10bc05268dddb1a6cc",
+      "sha256": "2c0bab1355a66b2f2ca11db931b0e86a9499eb0c6bc471ea5a39c0f61adc5e4a",
       "role": "reproducible-pdf-verifier"
     },
     {
