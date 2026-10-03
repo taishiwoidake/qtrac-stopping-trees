@@ -2,7 +2,7 @@
   "publication_id": "nested-regular-covers-v1",
   "paper_version": "technical-v1",
   "certificate_schema": 1,
-  "source_manifest_sha256": "e5055e9e99ce973687e766d62ec9a34dfea5cba2b09dd9f45b819518ca10dd80",
+  "source_manifest_sha256": "e2ce87ebc94a4360bf22110249ac001a75e6c1be8159458f968814d15835601e",
   "artifacts": [
     {
       "destination": "paper/preprint_v1.tex",
