@@ -36,10 +36,11 @@ jobs:
         run: cp paper/preprint_v1.pdf /tmp/preprint-frozen.pdf
 
       - name: Build PDF first pass
-        uses: xu-cheng/latex-action@e2f99d4b3685b0da93f97e1b86ad8fab81105098 # v3 / 3.3.0
+        uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4.1.0
         with:
           root_file: preprint_v1.tex
           working_directory: paper
+          docker_image: ghcr.io/xu-cheng/texlive-full@sha256:c06416ebbc69c8e90e07d1f1a6f7a3f9b334e773daa3543ce879ea533317c3a7
 
       - name: Preserve first build and clean generated files
         run: |
@@ -55,10 +56,11 @@ jobs:
             paper/preprint_v1.fdb_latexmk
 
       - name: Build PDF second pass
-        uses: xu-cheng/latex-action@e2f99d4b3685b0da93f97e1b86ad8fab81105098 # v3 / 3.3.0
+        uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4.1.0
         with:
           root_file: preprint_v1.tex
           working_directory: paper
+          docker_image: ghcr.io/xu-cheng/texlive-full@sha256:c06416ebbc69c8e90e07d1f1a6f7a3f9b334e773daa3543ce879ea533317c3a7
 
       - name: Verify reproducibility and frozen PDF
         run: |
